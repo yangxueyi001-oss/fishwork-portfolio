@@ -1065,7 +1065,7 @@ body.bg-on .ribbon{position:relative;z-index:1}
     <span class="l fx blur-40 f-imperial">F</span><span class="l fx blur-40 d1 f-montecarlo">i</span><span class="l fx blur-40 d1 f-imfell">s</span><span class="l fx blur-40 d2 f-josefin">h</span><span class="l y fx blur-40 d2 f-imperial">W</span><span class="l fx blur-40 d3 f-gentium">o</span><span class="l fx blur-40 d3 f-kranky">r</span><span class="l fx blur-40 d4 f-kranky">k</span>
   </div>
   <section class="gallery" id="work">
-    <p class="gsub fx d4"><span class="gedit" data-gk="heroSubCn" style="font-weight:600;color:var(--black)">工作内容 · 个人作品 · 日常生活 · 插画 · 图形 · 字体 · 海报</span><br><span class="gedit" data-gk="heroSubEn" style="font-family:var(--font-en);text-transform:uppercase;font-size:.82em;letter-spacing:.04em">Tap a card to explore</span></p>
+    <p class="gsub fx d4"><span data-gk="heroSubCn" style="font-weight:600;color:var(--black)">工作内容 · 个人作品 · 日常生活 · 插画 · 图形 · 字体 · 海报</span><br><span data-gk="heroSubEn" style="font-family:var(--font-en);text-transform:uppercase;font-size:.82em;letter-spacing:.04em">Tap a card to explore</span></p>
     <div class="fan is-stacked" id="fan">
       <div class="deck-hint" id="deckHint">👆 点击摊开 · Tap to spread</div>
       <!-- 扇形卡片 JS 生成 -->
@@ -1184,28 +1184,11 @@ body.bg-on .ribbon{position:relative;z-index:1}
 </div>
 
 <!-- 全站编辑浮动按钮 -->
-<button class="site-edit-fab" id="siteEditFab" title="编辑全站文案">
-  <svg viewBox="0 0 24 25" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
-  <span class="sef-txt">编辑全站</span>
-</button>
+
 <!-- 漂浮 PNG 编辑入口 -->
-<button class="floaters-fab" id="floatersFab" title="编辑首屏漂浮图">
-  <span>✦ 漂浮图</span>
-</button>
+
 <!-- 数据：备份/恢复/发布 菜单 -->
-<div id="dataFabWrap" style="position:fixed;right:20px;bottom:128px;z-index:901">
-  <button class="floaters-fab" id="dataFab" title="备份 / 恢复 / 导出发布版" style="position:static;background:var(--black);color:#fff">
-    <span>⤓ 备份 / 发布</span>
-  </button>
-  <div id="dataMenu" style="display:none;position:absolute;right:0;bottom:54px;background:#fff;border-radius:14px;box-shadow:0 10px 36px rgba(0,0,0,.2);padding:8px;min-width:240px">
-    <button class="data-mi" id="miBackupFull">⤓ 导出备份（含视频·全量）</button>
-    <button class="data-mi" id="miBackupLite">⤓ 导出备份（仅图文·轻量）</button>
-    <button class="data-mi" id="miRestore">⤒ 导入备份（恢复作品）</button>
-    <div style="height:1px;background:var(--grey-pill-2);margin:6px 4px"></div>
-    <button class="data-mi" id="miPublish">◈ 导出发布版（自包含网页）</button>
-    <button class="data-mi" id="miPublishZIP">◈ 导出发布版（ZIP 轻量包）</button>
-  </div>
-</div>
+
 <input type="file" id="restoreInput" accept="application/json,.json,.fishbak" style="display:none">
 
 
@@ -1234,7 +1217,7 @@ body.bg-on .ribbon{position:relative;z-index:1}
     <span class="big-logo hero-word"><span class="l f-imperial">F</span><span class="l f-montecarlo">i</span><span class="l f-imfell">s</span><span class="l f-josefin">h</span><span class="l y f-imperial">W</span><span class="l f-gentium">o</span><span class="l f-kranky">r</span><span class="l f-kranky">k</span></span>
     <div class="foot-links" id="footLinks"><!-- JS 渲染社交 icon --></div>
   </div>
-  <p class="foot-copy"><span class="gedit" data-gk="copy">© 2026 FISHWORK Studio — Independent design &amp; engineering.</span></p>
+  <p class="foot-copy"><span data-gk="copy">© 2026 FISHWORK Studio — Independent design &amp; engineering.</span></p>
 </footer>
 
 <script>
@@ -3102,8 +3085,8 @@ class HalftoneFollower{
 (function(){
   const FL_KEY='fishwork_floaters_v1';
   const layer=document.getElementById('floaters');
-  const fab=document.getElementById('floatersFab');
-  if(!layer||!fab) return;
+  const fab=document.getElementById('floatersFab');  // may be null in published mode
+  if(!layer) return;
   const hero=document.getElementById('top');
 
   // 默认 6 个卡槽（占位模拟，等用户传 PNG）
@@ -3324,11 +3307,11 @@ class HalftoneFollower{
   function toggle(){
     flEditing=!flEditing;
     document.body.classList.toggle('floaters-editing',flEditing);
-    fab.classList.toggle('active',flEditing);
-    if(flEditing){fab.querySelector('span').textContent='✓ 完成漂浮图';showFlash&&showFlash('拖拽移动 · 角标缩放 · 点击上传/粘贴PNG · ×清空');}
-    else{fab.querySelector('span').textContent='✦ 漂浮图';save();}
+    fab&&fab.classList.toggle('active',flEditing);
+    if(flEditing&&fab){fab.querySelector('span').textContent='✓ 完成漂浮图';showFlash&&showFlash('拖拽移动 · 角标缩放 · 点击上传/粘贴PNG · ×清空');}
+    else{fab&&fab.querySelector('span')&&(fab.querySelector('span').textContent='✦ 漂浮图');save();}
   }
-  fab.addEventListener('click',toggle);
+  fab&&fab.addEventListener('click',toggle);
 
   load().then(()=>render());
 })();
@@ -3881,9 +3864,32 @@ let SITE_EDITING=false;
 })();
 </script>
 <script>
-// Published mode: disable all editing interactions
-document.querySelectorAll('[contenteditable]').forEach(el=>{el.setAttribute('contenteditable','false')});
-document.querySelectorAll('.nav-settings,.about-edit-btn,.settings-mask,.settings,.social-modal').forEach(el=>{el.remove()});
+// Published mode: comprehensive editing UI removal
+(function(){
+  // Remove all editing buttons and panels
+  var removeSelectors = [
+    '.site-edit-fab','.floaters-fab','#dataFabWrap',
+    '.nav-settings','.about-edit-btn','.settings-mask','.settings',
+    '.ff-del','.ff-handle','.ff-edit','.ff-text-editor','.ff-toolbar',
+    '.fl-handle','.fl-del','.dt-add-block','.dt-edit','.dt-edit-bar',
+    '.card-add-btn','.sk-add','.sk-del','.sm-edit','.fan-card .fc-del',
+    '.pc-size','.gedit','.social-modal','.gl-add',
+    '#navSettings','#setMask','#settings'
+  ];
+  removeSelectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){ el.remove(); });
+  });
+  // Disable contenteditable
+  document.querySelectorAll('[contenteditable]').forEach(function(el){
+    el.setAttribute('contenteditable','false');
+  });
+  // Remove edit-related event listeners by cloning nodes
+  document.querySelectorAll('.gedit').forEach(function(el){
+    var clone = el.cloneNode(true);
+    clone.classList.remove('gedit');
+    el.parentNode.replaceChild(clone, el);
+  });
+})();
 </script>
 </body>
 </html>
