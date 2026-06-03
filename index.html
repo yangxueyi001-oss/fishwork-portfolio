@@ -1035,7 +1035,9 @@ body.bg-on .ribbon{position:relative;z-index:1}
   </div>
   <div class="nav-tabs" id="navTabs"><!-- tab 胶囊由 JS 渲染 --></div>
   <div class="nav-spacer"></div>
-  
+  <button class="pill nav-settings" id="navSettings" aria-label="设置" title="自定义外观">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 008 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H2a2 2 0 010-4h.09A1.65 1.65 0 004.6 8a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V2a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H22a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+  </button>
 </nav>
 
 <!-- LOGO 自定义弹层 -->
@@ -1056,7 +1058,110 @@ body.bg-on .ribbon{position:relative;z-index:1}
 </div>
 
 <!-- 外观设置面板 -->
+<div class="settings-mask" id="setMask"></div>
+<aside class="settings" id="settings">
+  <div class="set-head">
+    <h3>自定义外观</h3>
+    <button class="set-close" id="setClose" aria-label="关闭">×</button>
+  </div>
+  <div class="set-body">
 
+    <div class="set-group">
+      <div class="set-gtitle">背景</div>
+      <div class="seg" id="bgMode">
+        <button data-mode="solid" class="active">纯色</button>
+        <button data-mode="gradient">渐变</button>
+        <button data-mode="image">背景图</button>
+      </div>
+
+      <div class="set-sub" data-when="solid gradient">
+        <div class="set-row">
+          <label>主色 / 起始色</label>
+          <input type="color" id="bgC1" value="#e7e7e4">
+        </div>
+        <div class="set-row" data-when="gradient">
+          <label>结束色</label>
+          <input type="color" id="bgC2" value="#cfcfcb">
+        </div>
+        <div class="set-row" data-when="gradient">
+          <label>角度 <span id="bgAngleLbl">135°</span></label>
+          <input type="range" id="bgAngle" min="0" max="360" value="135">
+        </div>
+      </div>
+
+      <div class="set-sub" data-when="image">
+        <div class="set-presets" id="bgImgPresets"></div>
+        <button class="set-btn" id="bgImgUpload">上传背景图</button>
+        <div class="set-row">
+          <label>暗化遮罩 <span id="bgDimLbl">30%</span></label>
+          <input type="range" id="bgDim" min="0" max="80" value="30">
+        </div>
+      </div>
+    </div>
+
+    <div class="set-group">
+      <div class="set-gtitle">强调色</div>
+      <div class="set-presets" id="accentPresets"></div>
+      <div class="set-row">
+        <label>自定义强调色</label>
+        <input type="color" id="accentColor" value="#ffe600">
+      </div>
+    </div>
+
+    <div class="set-group">
+      <div class="set-gtitle">文字色</div>
+      <div class="set-row">
+        <label>主文字</label>
+        <input type="color" id="textColor" value="#0a0a0a">
+      </div>
+    </div>
+
+    <div class="set-group">
+      <div class="set-gtitle">字号</div>
+      <div class="set-row">
+        <label>整体字号 <span id="fontScaleLbl">100%</span></label>
+        <input type="range" id="fontScale" min="85" max="125" value="100">
+      </div>
+    </div>
+
+    <div class="set-group">
+      <div class="set-gtitle">自定义鼠标光标</div>
+      <div class="cursor-up-row">
+        <div class="cursor-up">
+          <div class="cursor-prev" id="curPrevNormal">○</div>
+          <span>未点击</span>
+          <div class="cursor-up-btns">
+            <button class="set-btn mini" id="curUpNormal">上传</button>
+            <button class="set-btn mini" id="curClrNormal">清除</button>
+          </div>
+        </div>
+        <div class="cursor-up">
+          <div class="cursor-prev" id="curPrevActive">●</div>
+          <span>点击态</span>
+          <div class="cursor-up-btns">
+            <button class="set-btn mini" id="curUpActive">上传</button>
+            <button class="set-btn mini" id="curClrActive">清除</button>
+          </div>
+        </div>
+      </div>
+      <div class="set-row">
+        <label>光标大小 <span id="curSizeLbl">48px</span></label>
+        <input type="range" id="curSize" min="24" max="96" value="48">
+      </div>
+    </div>
+
+    <div class="set-group">
+      <div class="set-gtitle">导航 Tab（拖动排序 · 可加图标）</div>
+      <div class="tab-editor" id="tabEditor"></div>
+      <button class="set-btn" id="tabAdd">+ 添加 Tab</button>
+    </div>
+
+  </div>
+  <div class="set-foot">
+    <button class="set-btn" id="setReset">恢复默认</button>
+    <button class="set-btn solid" id="setSave">保存</button>
+  </div>
+</aside>
 
 <!-- OPENING — FISHWORK + Work 扇形卡片（开屏） -->
 <header class="hero screen-no-nav" id="top">
