@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="published">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -469,6 +469,19 @@ html.published .about-photos .pc-size,
 html.published .ff-toolbar,
 html.published .gl-add,
 html.published .sm-edit{display:none !important}
+html.published .nav-settings,
+html.published .about-edit-btn,
+html.published .settings-mask,
+html.published .settings,
+html.published .social-modal,
+html.published .ff-del,
+html.published .ff-handle,
+html.published .ff-edit,
+html.published .ff-text-editor,
+html.published .fl-handle,
+html.published .fl-del,
+html.published .dt-add-block,
+html.published .pc-size,
 html.published .gedit,
 html.published [contenteditable]{outline:none !important;background:none !important}
 
@@ -3971,6 +3984,11 @@ let SITE_EDITING=false;
   document.getElementById('miPublish').addEventListener('click',doPublish);
   document.getElementById('miPublishZIP').addEventListener('click',doPublishZIP);
 })();
+</script>
+<script>
+// Published mode: disable all editing interactions
+document.querySelectorAll('[contenteditable]').forEach(el=>{el.setAttribute('contenteditable','false')});
+document.querySelectorAll('.nav-settings,.about-edit-btn,.settings-mask,.settings,.social-modal').forEach(el=>{el.remove()});
 </script>
 </body>
 </html>
