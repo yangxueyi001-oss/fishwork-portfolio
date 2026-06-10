@@ -12,7 +12,7 @@ window.__MEDIA_BLOBS__ = window.__MEDIA_BLOBS__ || {};
 (function(){
   var D = window.__PUBLISHED_DATA__;
   if(!D) return;
-  window.__PUBLISH_MODE__ = true;
+  window.__PUBLISH_MODE__ = false;
   // 1) 还原 localStorage（仅当本地为空时写入，避免覆盖访客自己的把玩痕迹则可去掉此判断——发布版强制写）
   try{ if(D.ls){ Object.keys(D.ls).forEach(function(k){ localStorage.setItem(k, D.ls[k]); }); } }catch(e){}
   // 2) base64 → Blob，预置到内存（id → Blob）
